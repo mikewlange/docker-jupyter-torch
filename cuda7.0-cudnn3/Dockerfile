@@ -32,13 +32,13 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -yq --n
     libsasl2-dev \
     libsnappy-dev \
     libssl-dev \
-    libssl-dev \
     libtool \
     pkg-config \
     protobuf-compiler \
     python-zmq \
     torch7-nv \
     unzip \
+    zlib1g-dev \
   && rm -rf /var/lib/apt/lists/*
 
 # workaround
@@ -55,8 +55,8 @@ RUN mkdir /tmp/build_fblualib \
   && cd /tmp/build_fblualib \
   && git clone -b v0.35.0 --depth 1 https://github.com/facebook/folly.git \
   && git clone -b v0.24.0 --depth 1 https://github.com/facebook/fbthrift.git \
-  && git clone https://github.com/facebook/thpp \
-  && git clone https://github.com/facebook/fblualib
+  && git clone -b v1.0 https://github.com/facebook/thpp \
+  && git clone -b v1.0 https://github.com/facebook/fblualib
 
 RUN cd /tmp/build_fblualib/folly/folly \
   && autoreconf -ivf \
