@@ -50,6 +50,7 @@ RUN git clone https://github.com/facebook/iTorch.git ~/itorch \
   && cp -r /root/.ipython/* /usr/local/share/jupyter/
 
 RUN luarocks install loadcaffe
+RUN luarocks install nninit
 
 RUN mkdir /tmp/build_fblualib \
   && cd /tmp/build_fblualib \
