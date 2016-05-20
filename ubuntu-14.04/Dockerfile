@@ -18,6 +18,7 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -yq --n
     gnuplot \
     gnuplot-x11 \
     g++ \
+    hdf5-tools \ 
     imagemagick \
     libboost-all-dev \
     libdouble-conversion-dev \
@@ -27,6 +28,7 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -yq --n
     libgflags-dev \
     libgoogle-glog-dev \
     libgraphicsmagick1-dev \
+    libhdf5-serial-dev \
     libiberty-dev \
     libjemalloc-dev \
     libjpeg-dev \
@@ -54,28 +56,21 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -yq --n
     protobuf-compiler \
     python-zmq \
     sox \
-    # torch7-nv \
     unzip \
     zlib1g-dev \
   && rm -rf /var/lib/apt/lists/*
 
-# install torch
+# install torch and useful packages
 RUN git clone https://github.com/torch/distro.git usr/local/torch --recursive \
 && git config --global url.https://github.com/.insteadOf git://github.com/ \
 && cd usr/local/torch && ./install.sh
 
 ENV PATH /usr/local/torch/install/bin:$PATH
 
-# workaround
-# RUN ln -s /usr/lib/x86_64-linux-gnu/libTH* /usr/lib/
-
-RUN git clone https://github.com/facebook/iTorch.git ~/itorch \
-  && cd ~/itorch \
+RUN git clone https://github.com/facebook/iTorch.git usr/local/itorch \
+  && cd usr/local/itorch \
   && luarocks make \
   && cp -r /root/.ipython/* /usr/local/share/jupyter/
-
-RUN luarocks install loadcaffe
-RUN luarocks install nninit
 
 RUN mkdir /tmp/build_fblualib \
   && cd /tmp/build_fblualib \
@@ -115,4 +110,10 @@ RUN mkdir /tmp/build_fblualib \
   && ldconfig \
   && cd / \
   && rm -rf /tmp/build_fblualib
+
+RUN luarocks install loadcaffe \
+  && luarocks install nninit \ 
+  && git clone https://github.com/deepmind/torch-hdf5.git \ 
+  && cd torch-hdf5 \
+  && luarocks make hdf5-0-0.rockspec LIBHDF5_LIBDIR="/usr/lib/x86_64-linux-gnu/"
 
