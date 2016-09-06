@@ -116,4 +116,3 @@ RUN luarocks install loadcaffe \
   && git clone https://github.com/deepmind/torch-hdf5.git \ 
   && cd torch-hdf5 \
   && luarocks make hdf5-0-0.rockspec LIBHDF5_LIBDIR="/usr/lib/x86_64-linux-gnu/"
-
