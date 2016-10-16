@@ -98,7 +98,9 @@ RUN mkdir /tmp/build_fblualib \
 RUN mkdir /tmp/build_fblualib \
   && cd /tmp/build_fblualib \
   && git clone -b v1.0 https://github.com/facebook/thpp \
-  && cd /tmp/build_fblualib/thpp/thpp \
+  && cd /tmp/build_fblualib/thpp/thpp 
+COPY thppfix/* /tmp/build_fblualib/thpp/thpp/
+RUN cd /tmp/build_fblualib/thpp/thpp \
   && ./build.sh \
   && cd / \
   && rm -rf /tmp/build_fblualib \
