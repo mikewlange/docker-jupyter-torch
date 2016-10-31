@@ -61,9 +61,9 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -yq --n
   && rm -rf /var/lib/apt/lists/*
 
 # install torch and useful packages
-RUN git clone https://github.com/torch/distro.git usr/local/torch --recursive \
-&& git config --global url.https://github.com/.insteadOf git://github.com/ \
-&& cd usr/local/torch && ./install.sh
+RUN git clone https://github.com/torch/distro.git /usr/local/torch --recursive \
+  && git config --global url.https://github.com/.insteadOf git://github.com/ \
+  && cd /usr/local/torch && ./install.sh
 
 ENV PATH /usr/local/torch/install/bin:$PATH
 
@@ -98,7 +98,9 @@ RUN mkdir /tmp/build_fblualib \
 RUN mkdir /tmp/build_fblualib \
   && cd /tmp/build_fblualib \
   && git clone -b v1.0 https://github.com/facebook/thpp \
-  && cd /tmp/build_fblualib/thpp/thpp \
+  && cd /tmp/build_fblualib/thpp/thpp 
+COPY thppfix/* /tmp/build_fblualib/thpp/thpp/
+RUN cd /tmp/build_fblualib/thpp/thpp \
   && ./build.sh \
   && cd / \
   && rm -rf /tmp/build_fblualib \

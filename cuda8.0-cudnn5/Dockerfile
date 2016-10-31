@@ -1,4 +1,4 @@
-FROM bethgelab/jupyter-deeplearning-x:cuda7.5-cudnn5
+FROM bethgelab/jupyter-deeplearning-x:cuda8.0-cudnn5
 
 MAINTAINER Bethge Lab <opensource@bethgelab.org>
 
@@ -61,9 +61,9 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -yq --n
   && rm -rf /var/lib/apt/lists/*
 
 # install torch and useful packages
-RUN git clone https://github.com/torch/distro.git usr/local/torch --recursive \
-&& git config --global url.https://github.com/.insteadOf git://github.com/ \
-&& cd usr/local/torch && ./install.sh
+RUN git clone https://github.com/torch/distro.git /usr/local/torch --recursive \
+  && git config --global url.https://github.com/.insteadOf git://github.com/ \
+  && cd /usr/local/torch && ./install.sh
 
 ENV PATH /usr/local/torch/install/bin:$PATH
 
